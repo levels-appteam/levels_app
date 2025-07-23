@@ -72,7 +72,7 @@ public class AttendanceController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/history")
+	@GetMapping("/history/{email:.+}")
 	public String getHistory(
 			@AuthenticationPrincipal UserDetails userDetails, 
 			@RequestParam(required = false) Integer year,

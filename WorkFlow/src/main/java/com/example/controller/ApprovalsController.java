@@ -54,6 +54,7 @@ public class ApprovalsController {
 
 		// modelに渡す
 		model.addAttribute("userList", userList);
+		model.addAttribute("loginUser", loginUser);
 
 		return "approvals/list";
 

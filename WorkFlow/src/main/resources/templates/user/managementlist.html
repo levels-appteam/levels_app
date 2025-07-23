@@ -37,6 +37,7 @@
 					<td th:text="${item.departmentId}"></td>
 					<td>
 						<a class="btn btn-primary" th:href="@{'/user/detail/' + ${item.email}}">ユーザー情報を編集する</a>
+						<a class="btn btn-primary" th:href="@{'/attendancemanagement/history/' + ${item.email}}">勤怠履歴</a>
 					</td>
 				</tr>
 			</tbody>
