@@ -46,6 +46,11 @@
 			</select>
 			<div class="invalid-feedback" th:errors="*{departmentId}"></div>
 		</div>
+		<!--入社日登録-->
+		<div class="form-group">
+			<label for="joiningDate">入社日</label>
+			<input type="date" id="joiningDate" class="form-control" th:field="*{joiningDate}" />
+		</div>
 		<!--登録ボタン-->
 		<input type="submit" th:value="#{user.signup.btn}" class="btn btn-primary w-100 mt-3" />
 	</form>

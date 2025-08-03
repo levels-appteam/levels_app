@@ -55,7 +55,7 @@
 				<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
 				<td th:text="${request.targetDate}"></td>
 				<td th:text="${request.comment}"></td>
-				<td th:text="${request.status}"></td>
+				<td th:text="${request.status.label}"></td>
 			</tr>
 		</table>
 	</body>

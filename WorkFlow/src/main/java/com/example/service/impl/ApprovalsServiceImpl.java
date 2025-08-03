@@ -10,10 +10,12 @@ import com.example.domain.entity.ApprovalsEntity;
 import com.example.domain.entity.RequestEntity;
 import com.example.domain.entity.UserEntity;
 import com.example.domain.enums.ApprovalsDecision;
+import com.example.domain.enums.RequestKind;
 import com.example.domain.enums.RequestStatus;
 import com.example.repository.ApprovalsRepository;
 import com.example.repository.RequestRepository;
 import com.example.service.ApprovalsService;
+import com.example.service.PaidleavesService;
 
 @Service
 public class ApprovalsServiceImpl implements ApprovalsService {
@@ -23,6 +25,9 @@ public class ApprovalsServiceImpl implements ApprovalsService {
 
 	@Autowired
 	private RequestRepository requestRepository;
+	
+	@Autowired
+	private PaidleavesService paidleavesService;
 
 	/**
 	 * ユーザーの申請状況を取得
@@ -64,6 +69,9 @@ public class ApprovalsServiceImpl implements ApprovalsService {
 		switch (decision) {
 		case "APPROVED":
 			request.setStatus(RequestStatus.APPROVED);
+			if (request.getKind() == RequestKind.PAID_LEAVE) {
+				paidleavesService.deductPaidLeaveDays(request.getUserEntity(), 1.0f);
+			}
 			break;
 		case "REJECTED":
 			request.setStatus(RequestStatus.REJECTED);

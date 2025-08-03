@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<title>有給管理</title>
+	<link rel="stylesheet" th:href="@{/css/user/list.css}">
+	<script th:src="@{/js/paidleave.js}" defer></script>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<h2>社員一覧</h2>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>社員名</th>
+					<th>有給履歴</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${paidLeaves}">
+					<td th:text="${user.name}"></td>
+					<td>
+						<a th:href="@{/paidleaves/user/{id}(id=${user.id})}">有給履歴を見る</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

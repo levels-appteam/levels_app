@@ -18,10 +18,13 @@
 							<a class="nav-link" th:href="@{'/user/detailview/' + ${user.email}}">ユーザー詳細</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" th:href="@{'/attendance/history'}">勤怠履歴確認</a>
+							<a class="nav-link" th:href="@{'/attendance/history/{email:.+}'}">勤怠履歴確認</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" th:href="@{'/requests/kind'}">各種申請</a>
+							<a class="nav-link" th:href="@{'/requests/paidleave'}">有給申請</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{'/requests/correction'}">勤務申請</a>
 						</li>
 						<!--管理者専用リンク-->
 						<li class="nav-item" sec:authorize="hasRole('ADMIN')">
@@ -32,6 +35,9 @@
 						</li>
 						<li class="nav-item" sec:authorize="hasRole('ADMIN')">
 							<a class="nav-link" th:href="@{'/approvals/list'}">申請承認管理</a>
+						</li>
+						<li class="nav-item" sec:authorize="hasRole('ADMIN')">
+							<a class="nav-link" th:href="@{'/paidleaves/list'}">有給管理</a>
 						</li>
 					</ul>
 					<!-- ログアウトボタン -->

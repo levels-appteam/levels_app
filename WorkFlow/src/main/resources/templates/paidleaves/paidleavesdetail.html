@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<title>有給管理</title>
+	<link rel="stylesheet" th:href="@{/css/user/list.css}">
+	<script th:src="@{/js/paidleave.js}" defer></script>
+</head>
+
+<body layout:fragment="content">
+	<h2>有給一覧</h2>
+	<h3 th:text="${user.name} + ' さんの有給履歴'"></h3>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>付与日</th>
+				<th>失効日</th>
+				<th>付与日数</th>
+				<th>使用日数</th>
+				<th>残日数</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="p : ${paidleaves}">
+				<td th:text="${p.grantDate}"></td>
+				<td th:text="${p.revocationDate}"></td>
+				<td th:text="|${p.days}日|"></td>
+				<td th:text="|${p.usedDays}日|"></td>
+				<td th:text="|${p.days - p.usedDays}日|"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>

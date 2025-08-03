@@ -10,7 +10,7 @@
 <body>
 	<div layout:fragment="content">
 		<!--年月選択フォーム-->
-		<form th:action="@{/attendance/history}" method="get" class="mb-3">
+		<form th:action="@{/attendance/history/{email:.+}}" method="get" class="mb-3">
 			<label for="year">年：</label>
 			<select name="year" id="year">
 				<option th:each="y : ${#numbers.sequence(targetYear - 2, targetYear)}" 

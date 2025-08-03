@@ -41,17 +41,12 @@
 							<input type="text" class="form-control" th:field="*{departmentId}" />
 						</td>
 					</tr>
-					<tr sec:authorize="hasRole('ADMIN')">
-						<th>有給残日数</th>
-						<td>
-							<input type="text" class="form-control"/>
-						</td>
-					</tr>
 				</tbody>
 			</table>
 			<!--ボタンエリア-->
 			<div class="text-center">
-				<button class="btn btn-danger" type="submit" name="delete" value="delete" tr sec:authorize="hasRole('ADMIN')">
+				<button class="btn btn-danger" type="submit" name="delete" value="delete" tr
+					sec:authorize="hasRole('ADMIN')">
 					削除
 				</button>
 				<button class="btn btn-primary" type="submit" name="update" value="update">

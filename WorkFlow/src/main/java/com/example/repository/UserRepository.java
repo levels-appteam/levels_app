@@ -29,23 +29,26 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	List<UserEntity> findByRole(Role role);
 
 	void deleteByEmail(String email);
-	
+
 	/**
 	 * 部署でユーザー取得
+	 * 
 	 * @param departmentId
 	 * @return
 	 */
 	List<UserEntity> findByDepartmentId(Integer departmentId);
-	
+
 	/**
 	 * ユーザーIdでユーザー検索
+	 * 
 	 * @param email
 	 * @return
 	 */
-	List<UserEntity>findByEmailContaining(String email);
-	
+	List<UserEntity> findByEmailContaining(String email);
+
 	/**
 	 * 部署idと検索結果反映
+	 * 
 	 * @param email
 	 * @param departmentId
 	 * @return

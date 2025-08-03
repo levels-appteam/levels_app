@@ -3,8 +3,6 @@ package com.example.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.validation.constraints.Email;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +19,10 @@ import com.example.domain.entity.UserEntity;
 import com.example.mapper.AttendanceSummaryMapper;
 import com.example.service.AttendanceManagementService;
 import com.example.service.AttendanceSummaryService;
-import com.example.service.UserService;
 
+/**
+ * ユーザーの勤怠管理用コントローラー
+ */
 @Controller
 @RequestMapping("/attendancemanagement")
 public class AttendanceManagementController {
@@ -33,6 +33,15 @@ public class AttendanceManagementController {
 	@Autowired
 	private AttendanceSummaryService summaryService;
 
+	/**
+	 * 月毎の勤怠履歴を取得
+	 * @param userDetails
+	 * @param email
+	 * @param year
+	 * @param month
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/history/{email:.+}")
 	public String getAttendanceList(@AuthenticationPrincipal UserDetails userDetails,
 			@PathVariable String email,
