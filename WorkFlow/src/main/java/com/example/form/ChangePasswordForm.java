@@ -13,8 +13,8 @@ public class ChangePasswordForm {
 	/**
 	 * 現在のパスワード
 	 */
-	@NotBlank(message = "現在のパスワードを入力してください")
-	private String currentPassword;
+	@NotBlank(message = "ユーザーIDを入力してください")
+	private String userId;
 
 	/**
 	 * 新しいパスワード
