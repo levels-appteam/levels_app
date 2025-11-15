@@ -10,7 +10,7 @@
 	<link rel="stylesheet" th:href="@{/css/login/login.css}">
 	<!--JS読み込み-->
 	<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
-	<script th:src="@{/webjars/bootstrap/css/bootstrap.min.js}" defer></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
 	<title>ログイン</title>
 </head>
 
@@ -32,15 +32,13 @@
 			</div>
 
 			<!-- パスワード変更画面 -->
-			<div style="margin-top: 10px;">
+			<div style="margin-top: 15px; margin-bottom: 15px;">
 				<a th:href="@{/password/change}">パスワードを忘れた方</a>
 			</div>
 			
-			<input type="submit" value="ログイン" class="btn btn-primary" />
+			<input type="submit" value="ログイン" class="btn btn-primary" style="margin-top: 10px;" />
 		</form>
 	</div>
 </body>
-
-</html>
 
 </html>

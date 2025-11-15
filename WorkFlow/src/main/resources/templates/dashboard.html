@@ -9,7 +9,7 @@
 
 	<!--CSS読み込み-->
 	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{/css/layout/dashbard.css}">
+	<link rel="stylesheet" th:href="@{/css/layout/dashboard.css}">
 	<!-- jQuery と Bootstrap JS -->
 	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}"></script>
@@ -22,7 +22,7 @@
 
 <body>
 	<div layout:fragment="content">
-		<div class="container-fluid p-3">
+		<div class="container-fluid p-3" style="margin-top: 20px;">
 			<!-- カレンダーエリア -->
 			<div class="col-md-9">
 				<div id='calendar' style="max-width:600px;max-height:600px;"></div>

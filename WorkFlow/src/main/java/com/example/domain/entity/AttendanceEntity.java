@@ -51,7 +51,7 @@ public class AttendanceEntity {
 	@Column(name = "work_date", nullable = false)
 	private LocalDate workDate;
 
-	/*
+	/**
 	 * 出退勤の値のリレーション 文字列型に変換する
 	 */
 	@Enumerated(EnumType.STRING)
