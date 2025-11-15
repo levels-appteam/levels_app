@@ -2,8 +2,6 @@ package com.example.service.impl;
 
 import java.util.List;
 
-import jakarta.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +11,8 @@ import com.example.domain.entity.UserEntity;
 import com.example.domain.enums.Role;
 import com.example.repository.UserRepository;
 import com.example.service.UserManagementService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserManagementServiceImpl implements UserManagementService {

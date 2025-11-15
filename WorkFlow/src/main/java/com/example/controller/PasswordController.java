@@ -4,6 +4,8 @@ import com.example.form.ChangePasswordForm;
 import com.example.domain.entity.UserEntity;
 import com.example.service.UserService;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,11 +33,17 @@ public class PasswordController {
 
 	/**
 	 * 画面表示
+	 * 
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/change")
-	public String showChangeForm(Model model) {
+	public String showChangeForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		if (Objects.nonNull(userDetails) && !userDetails.getUsername().isEmpty()) {
+
+			UserEntity loginUser = userService.getLoginUser(userDetails.getUsername());
+			model.addAttribute("userId", loginUser.getEmail());
+		}
 		if (!model.containsAttribute("changePasswordForm")) {
 			model.addAttribute("changePasswordForm", new ChangePasswordForm());
 		}
@@ -44,6 +52,7 @@ public class PasswordController {
 
 	/**
 	 * パスワード変更処理
+	 * 
 	 * @param form
 	 * @param bindingResult
 	 * @param userDetails
@@ -52,7 +61,7 @@ public class PasswordController {
 	 */
 	@PostMapping("/change")
 	public String changePassword(@Valid @ModelAttribute("changePasswordForm") ChangePasswordForm form,
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetails userDetails, RedirectAttributes ra) {
+			BindingResult bindingResult, RedirectAttributes ra) {
 
 		if (bindingResult.hasErrors()) {
 			ra.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordForm", bindingResult);
@@ -64,25 +73,12 @@ public class PasswordController {
 			bindingResult.rejectValue("confirmPassword", "Mismatch", "確認用パスワードが一致しません");
 		}
 
-		UserEntity loginUser = userService.getLoginUser(userDetails.getUsername());
-		if (loginUser == null) {
-			bindingResult.reject("NoUser", "ユーザーが見つかりません");
-		} else {
-			// 現在のパスワード照合
-			if (!passwordEncoder.matches(form.getCurrentPassword(), loginUser.getPassword())) {
-				bindingResult.rejectValue("currentPassword", "BadCredentials", "現在のパスワードが正しくありません");
-			}
-		}
+		// TODO：現在のパスワード削除、パラメーターにuserIdを追加
 
-		if (bindingResult.hasErrors()) {
-			ra.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordForm", bindingResult);
-			ra.addFlashAttribute("changePasswordForm", form);
-			return "redirect:/password/change";
-		}
 
 		// 更新
 		String encoded = passwordEncoder.encode(form.getNewPassword());
-		userService.updatePassword(loginUser.getEmail(), encoded);
+		userService.updatePassword(form.getUserId(), encoded);
 
 		ra.addFlashAttribute("message", "パスワードを変更しました。次回ログインから新しいパスワードをご利用ください。");
 		return "redirect:/dashboard";
