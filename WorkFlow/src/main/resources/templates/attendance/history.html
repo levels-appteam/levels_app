@@ -9,50 +9,67 @@
 
 <body>
 	<div layout:fragment="content">
-		<h2>勤怠履歴確認</h2>
-		<!--年月選択フォーム-->
-		<form th:action="@{/attendance/history/{email:.+}}" method="get" class="mb-3">
+		<div style="margin-top: 20px;">
+			<div class="header border-bottom mb-4">
+				<h1 class="h2">勤怠履歴確認</h1>
+			</div>
 			
-			<select name="year" id="year">
-				<option th:each="y : ${#numbers.sequence(targetYear - 2, targetYear)}" 
-				th:value="${y}" th:text="${y}" th:selected="${y} == ${targetYear}"></option>
-			</select>
-			<label for="year">年</label>
+			<!--年月選択フォーム-->
+			<div class="card shadow-sm mb-4" style="padding: 20px;">
+				<form th:action="@{/attendance/history/{email:.+}}" method="get" class="d-flex align-items-end gap-3 flex-wrap">
+					<div class="form-group mb-0">
+						<label for="year" class="form-label">年</label>
+						<select name="year" id="year" class="form-control">
+							<option th:each="y : ${#numbers.sequence(targetYear - 2, targetYear)}" 
+							th:value="${y}" th:text="${y}" th:selected="${y} == ${targetYear}"></option>
+						</select>
+					</div>
+					
+					<div class="form-group mb-0">
+						<label for="month" class="form-label">月</label>
+						<select name="month" id="month" class="form-control">
+							<option th:each="m : ${#numbers.sequence(1, 12)}" 
+							th:value="${m}" th:text="${m}" th:selected="${m} == ${targetMonth}"></option>
+						</select>
+					</div>
+					
+					<button type="submit" class="btn btn-primary">選択年月を表示</button>
+					
+					<!--CSV出力-->
+					<form th:action="@{/attendance/history/csv}" method="get" class="mb-0">
+						<input type="hidden" name="year" th:value="${targetYear}" />
+						<input type="hidden" name="month" th:value="${targetMonth}" />
+						<button type="submit" class="btn btn-secondary">CSV出力</button>
+					</form>
+				</form>
+			</div>
 			
-			<select name="month" id="month">
-				<option th:each="m : ${#numbers.sequence(1, 12)}" 
-				th:value="${m}" th:text="${m}" th:selected="${m} == ${targetMonth}"></option>
-			</select>
-			<label for="month">月</label>
-			
-			<button type="submit" class="btn btn-primary">選択年月を表示</button>
-		</form>
-		<!--CSV出力-->
-		<form th:action="@{/attendance/history/csv}" method="get">
-			<input type="hidden" name="year" th:value="${targetYear}" />
-			<input type="hidden" name="month" th:value="${targetMonth}" />
-			<button type="submit" class="btn btn-secondary mt-3">CSV出力</button>
-		</form>
-		<table class="table table-bordered table-striped">
-			<thead class="table-dark">
-				<tr>
-					<th>日付</th>
-					<th>出勤時間</th>
-					<th>退勤時間</th>
-					<th>休憩時間</th>
-					<th>実働時間</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="summary : ${history}">
-					<td th:text="${summary.workDate}"></td>
-					<td th:text="${summary.workStart}"></td>
-					<td th:text="${summary.workEnd}"></td>
-					<td th:text="${summary.breakMinutes}"></td>
-					<td th:text="${summary.workingMinutes}"></td>
-				</tr>
-			</tbody>
-		</table>
+			<!--テーブル-->
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<table class="table table-bordered table-striped table-hover mb-0">
+						<thead class="table-dark">
+							<tr>
+								<th>日付</th>
+								<th>出勤時間</th>
+								<th>退勤時間</th>
+								<th>休憩時間</th>
+								<th>実働時間</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="summary : ${history}">
+								<td th:text="${summary.workDate}"></td>
+								<td th:text="${summary.workStart}"></td>
+								<td th:text="${summary.workEnd}"></td>
+								<td th:text="${summary.breakMinutes}"></td>
+								<td th:text="${summary.workingMinutes}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

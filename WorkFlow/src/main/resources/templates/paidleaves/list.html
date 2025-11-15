@@ -10,29 +10,37 @@
 
 <body>
 	<div layout:fragment="content">
-		<h2>社員一覧</h2>
-		<table class="table table-striped table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>社員名</th>
-					<th>付与日</th>
-					<th>失効日</th>
-					<th>付与日数</th>
-					<th>使用日数</th>
-					<th>残日数</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each= "p : ${paidleaves}">
-					<td th:text="${p.userEntity.name}"></td>
-					<td th:text="${p.grantDate}"></td>
-					<td th:text="${p.revocationDate}"></td>
-					<td th:text="|${p.days}日|"></td>
-					<td th:text="|${p.usedDays}日|"></td>
-					<td th:text="|${p.days - p.usedDays}日|"></td>
-				</tr>
-			</tbody>
-		</table>
+		<div style="margin-top: 20px;">
+			<div class="header border-bottom mb-4">
+				<h1 class="h2">有給管理</h1>
+			</div>
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<table class="table table-striped table-bordered table-hover mb-0">
+						<thead class="table-dark">
+							<tr>
+								<th>社員名</th>
+								<th>付与日</th>
+								<th>失効日</th>
+								<th>付与日数</th>
+								<th>使用日数</th>
+								<th>残日数</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p : ${paidleaves}">
+								<td th:text="${p.userEntity.name}"></td>
+								<td th:text="${p.grantDate}"></td>
+								<td th:text="${p.revocationDate}"></td>
+								<td th:text="|${p.days}日|"></td>
+								<td th:text="|${p.usedDays}日|"></td>
+								<td th:text="|${p.days - p.usedDays}日|"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 

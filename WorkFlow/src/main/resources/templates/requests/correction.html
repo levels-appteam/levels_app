@@ -9,74 +9,98 @@
 </head>
 
 <body layout:fragment="content">
-	<h2>勤怠修正申請フォーム</h2>
+	<div style="margin-top: 20px;">
+		<div class="header border-bottom mb-4">
+			<h1 class="h2">勤怠修正申請</h1>
+		</div>
 
-	<form th:action="@{/requests/correction}" th:object="${requestForm}" method="post">
-		<label>修正対象日：</label>
-		<input type="date" th:field="*{targetDate}"><br><br>
+		<!-- 申請フォーム -->
+		<div class="card shadow-sm mb-4">
+			<div class="card-body">
+				<h3 class="h4 mb-4">勤怠修正申請フォーム</h3>
+				<form th:action="@{/requests/correction}" th:object="${requestForm}" method="post">
+					<div class="form-group mb-3">
+						<label class="form-label">修正対象日</label>
+						<input type="date" class="form-control" th:field="*{targetDate}">
+						<div th:if="${#fields.hasErrors('targetDate')}" th:errors="*{targetDate}" class="text-danger"></div>
+					</div>
 
-		<label>申請内容・理由：</label><br>
-		<textarea th:field="*{comment}" rows="4" cols="40"></textarea><br><br>
+					<div class="form-group mb-4">
+						<label class="form-label">申請内容・理由</label>
+						<textarea class="form-control" th:field="*{comment}" rows="4"></textarea>
+						<div th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="text-danger"></div>
+					</div>
 
-		<button type="submit">申請する</button>
-	</form>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary" style="min-width: 120px;">申請する</button>
+					</div>
+				</form>
+			</div>
+		</div>
 
-	<hr>
+		<!-- 申請履歴 -->
+		<div class="card shadow-sm">
+			<div class="card-body">
+				<h3 class="h4 mb-3">申請履歴（勤怠修正）</h3>
+				<!-- フィルター -->
+				<div class="mb-3">
+					<label for="status-filter" class="form-label">ステータスで絞り込み</label>
+					<select id="status-filter" class="form-control" style="max-width: 200px;">
+						<option value="ALL">すべて</option>
+						<option value="PENDING">未承認</option>
+						<option value="APPROVED">承認済</option>
+						<option value="REJECTED">却下済</option>
+						<option value="REMAND">差し戻し</option>
+					</select>
+				</div>
 
-	<h3>申請履歴（勤怠修正）</h3>
-	<!-- トグルボタン -->
-	<select id="status-filter">
-		<option value="ALL">すべて</option>
-		<option value="PENDING">未承認</option>
-		<option value="APPROVED">承認済</option>
-		<option value="REJECTED">却下済</option>
-		<option value="REMAND">差し戻し</option>
-	</select>
+				<!-- テーブル（ステータスごとに表示切り替え） -->
+				<table id="correction-table" class="table table-striped table-bordered table-hover mb-0">
+					<thead class="table-dark">
+						<tr>
+							<th>申請日</th>
+							<th>対象日</th>
+							<th>理由</th>
+							<th>ステータス</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- 未承認 -->
+						<tr th:each="request : ${pendingList}" th:attr="data-status=${request.status}">
+							<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
+							<td th:text="${request.targetDate}"></td>
+							<td th:text="${request.comment}"></td>
+							<td th:text="${request.status.label}"></td>
+						</tr>
 
-	<!-- テーブル（ステータスごとに表示切り替え） -->
-	<table border="1" id="correction-table" class="table table-striped table-borderd table-hover">
-		<thead>
-			<tr>
-				<th>申請日</th>
-				<th>対象日</th>
-				<th>理由</th>
-				<th>ステータス</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!-- 未承認 -->
-			<tr th:each="request : ${pendingList}" th:attr="data-status=${request.status}">
-				<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
-				<td th:text="${request.targetDate}"></td>
-				<td th:text="${request.comment}"></td>
-				<td th:text="${request.status.label}"></td>
-			</tr>
+						<!-- 承認済 -->
+						<tr th:each="request : ${approvedList}" th:attr="data-status=${request.status}">
+							<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
+							<td th:text="${request.targetDate}"></td>
+							<td th:text="${request.comment}"></td>
+							<td th:text="${request.status.label}"></td>
+						</tr>
 
-			<!-- 承認済 -->
-			<tr th:each="request : ${approvedList}" th:attr="data-status=${request.status}">
-				<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
-				<td th:text="${request.targetDate}"></td>
-				<td th:text="${request.comment}"></td>
-				<td th:text="${request.status.label}"></td>
-			</tr>
+						<!-- 却下済 -->
+						<tr th:each="request : ${rejectedList}" th:attr="data-status=${request.status}">
+							<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
+							<td th:text="${request.targetDate}"></td>
+							<td th:text="${request.comment}"></td>
+							<td th:text="${request.status.label}"></td>
+						</tr>
 
-			<!-- 却下済 -->
-			<tr th:each="request : ${rejectedList}" th:attr="data-status=${request.status}">
-				<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
-				<td th:text="${request.targetDate}"></td>
-				<td th:text="${request.comment}"></td>
-				<td th:text="${request.status.label}"></td>
-			</tr>
-
-			<!-- 差し戻し -->
-			<tr th:each="request : ${remandList}" th:attr="data-status=${request.status}">
-				<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
-				<td th:text="${request.targetDate}"></td>
-				<td th:text="${request.comment}"></td>
-				<td th:text="${request.status.label}"></td>
-			</tr>
-		</tbody>
-	</table>
+						<!-- 差し戻し -->
+						<tr th:each="request : ${remandList}" th:attr="data-status=${request.status}">
+							<td th:text="${#temporals.format(request.submittedAt, 'yyyy-MM-dd HH:mm')}"></td>
+							<td th:text="${request.targetDate}"></td>
+							<td th:text="${request.comment}"></td>
+							<td th:text="${request.status.label}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
