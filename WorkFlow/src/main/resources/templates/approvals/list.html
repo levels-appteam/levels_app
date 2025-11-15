@@ -5,35 +5,66 @@
 <head>
 	<title>申請承認画面</title>
 	<link rel="stylesheet" th:href="@{/css/user/list.css}">
-	<script th:src="@{/js/approvals.js}" defer></script>
+	<script th:src="@{/js/appList.js}" defer></script>
 </head>
 
 <body layout:fragment="content">
-	<!--ユーザー一覧表示-->
-	<div class="container" style="display: flex;">
-		<div th:if="${message}" style="color: green; font-weight: bold; margin-bottom: 10px;">
-			<p th:text="${message}">承認メッセージ表示</p>
+	<div style="margin-top: 20px;">
+		<div class="header border-bottom mb-4">
+			<h1 class="h2">申請承認</h1>
 		</div>
-		<ul>
-			<li th:each="user : ${userList}" th:attr="data-userid=${user.id}" class="user-item"
-				style="cursor: pointer;">
-				<span th:text="${user.name}">ユーザー名</span>
-			</li>
-		</ul>
 
-		<!--HTML右側-->
-		<div id="user-detail" style="display: none; margin-left: 40px; width: 100%;">
-			<h2>申請詳細</h2>
-			<h3 id="detail-name">ユーザー名:</h3>
-			<!--申請フィルター-->
-			<select id="status-filter">
-				<option value="PENDING">未承認</option>
-				<option value="APPROVED">承認済</option>
-				<option value="REJECTED">却下済</option>
-				<option value="REMAND">差し戻し</option>
-			</select>
-			<!-- 申請リスト -->
-			<div id="request-list"></div>
+		<div th:if="${message}" class="alert alert-success mb-3" role="alert">
+			<p th:text="${message}" class="mb-0">承認メッセージ表示</p>
+		</div>
+
+		<div class="card shadow-sm">
+			<div class="card-body">
+				<!-- フィルター -->
+				<div class="mb-3">
+					<label for="status-filter" class="form-label">ステータスで絞り込み</label>
+					<select id="status-filter" class="form-control" style="max-width: 200px;">
+						<option value="ALL">すべて</option>
+						<option value="PENDING">未承認</option>
+						<option value="APPROVED">承認済</option>
+						<option value="REJECTED">却下済</option>
+						<option value="REMAND">差し戻し</option>
+					</select>
+				</div>
+
+				<!-- テーブル -->
+				<table class="table table-striped table-bordered table-hover mb-0" id="requests-table">
+					<thead class="table-dark">
+						<tr>
+							<th class="th-width">ユーザー名</th>
+							<th class="th-width">申請種別</th>
+							<th class="th-width">対象日</th>
+							<th class="th-width">提出日</th>
+							<th class="th-width">ステータス</th>
+							<th class="th-width">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="r : ${requests}" th:attr="data-status=${r.status.name()}">
+							<td th:text="${r.userName}"></td>
+							<td th:text="${r.kindLabel}"></td>
+							<td th:text="${r.targetDate}"></td>
+							<td th:text="${#temporals.format(r.submittedAt,'yyyy-MM-dd HH:mm')}"></td>
+							<td th:text="${r.statusLabel}"></td>
+							<td>
+								<form th:if="${r.status.name() == 'PENDING'}" action="/approvals/approve" method="post"
+									style="display:inline;">
+									<input type="hidden" name="requestId" th:value="${r.id}">
+									<button type="submit" name="decision" value="APPROVED" class="btn btn-sm btn-success">承認</button>
+									<button type="submit" name="decision" value="REJECTED" class="btn btn-sm btn-danger">却下</button>
+									<button type="submit" name="decision" value="REMAND" class="btn btn-sm btn-warning">差し戻し</button>
+								</form>
+								<span th:if="${r.status.name() != 'PENDING'}" th:text="${'処理済: ' + r.statusLabel}"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </body>

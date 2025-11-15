@@ -25,4 +25,12 @@ public interface AttendanceService {
 	 * @param email
 	 */
 	public AttendanceType getLoginUserType(Integer userId);
+	
+	/**
+	 * 今日打刻したかチェック
+	 * @param userId
+	 * @param type
+	 * @return
+	 */
+	boolean hasPunchedToday(Integer userId);
 }

@@ -21,5 +21,12 @@ public interface AttendanceRepository extends JpaRepository<AttendanceEntity, In
 	
 	AttendanceEntity findFirstByUserEntityIdOrderByAtDesc(Integer userId);
 	
+	/**
+	 * 打刻情報チェック
+	 * @param userEntity
+	 * @param workDate
+	 * @return
+	 */
 	Optional<AttendanceEntity> findByUserEntityAndWorkDate(UserEntity userEntity, LocalDate workDate);
+	
 }

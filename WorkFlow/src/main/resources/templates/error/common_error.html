@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--CSS読み込み-->
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/login/login.css}">
+	<!--JS読み込み-->
+	<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+	<title>エラー</title>
+</head>
+
+<body class="bg-light">
+	<div class="text-center">
+		<div class="form-login">
+			<h2 class="text-danger mb-4">エラーが発生しました</h2>
+			<div class="alert alert-danger" role="alert">
+				<p class="mb-0" th:text="${errorMessage}">予期せぬエラーが発生しました。</p>
+			</div>
+			<div style="margin-top: 25px;">
+				<a th:href="@{/dashboard}" class="btn btn-primary">トップページへ戻る</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<title>カレンダー管理</title>
+	<link rel="stylesheet" th:href="@{/css/user/list.css}">
+	<script th:src="@{/js/paidleave.js}" defer></script>
+</head>
+
+<body layout:fragment="content">
+	<div style="margin-top: 20px;">
+		<div class="header border-bottom mb-4">
+			<h1 class="h2">カレンダー管理（登録）</h1>
+		</div>
+		<div class="card shadow-sm" style="max-width: 600px; margin: 0 auto; padding: 30px;">
+			<form th:action="@{/admin/calendar}" th:object="${calendarForm}" method="post">
+				<div class="form-group mb-3">
+					<label class="form-label">開始日</label>
+					<input class="form-control" type="date" th:field="*{startDate}" required>
+					<div th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="text-danger"></div>
+				</div>
+
+				<div class="form-group mb-3">
+					<label class="form-label">終了日</label>
+					<input class="form-control" type="date" th:field="*{endDate}" required>
+					<div th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="text-danger"></div>
+				</div>
+
+				<div class="form-group mb-3">
+					<label class="form-label">タイトル</label>
+					<input class="form-control" type="text" th:field="*{eventTitle}" placeholder="例: 夏季休暇" required>
+					<div th:if="${#fields.hasErrors('eventTitle')}" th:errors="*{eventTitle}" class="text-danger"></div>
+				</div>
+
+				<div class="form-group mb-3">
+					<label for="exampleFormControlTextarea1" class="form-label">概要</label>
+					<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+				</div>
+
+				<div class="form-group mb-4">
+					<label class="form-label">種別</label>
+					<select class="form-control" th:field="*{eventType}">
+						<option th:each="t : ${T(com.example.domain.enums.CalendarEnum).values()}" th:value="${t}"
+							th:text="${t.label}">
+						</option>
+					</select>
+				</div>
+				<div class="text-center">
+					<button class="btn btn-success" type="submit" style="min-width: 120px;">登録</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

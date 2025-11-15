@@ -6,6 +6,8 @@
 		
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 		<link rel="stylesheet" th:href="@{/css/login/login.css}">
+		<link rel="stylesheet" th:href="@{/css/layout/header.css}">
+		<link rel="stylesheet" th:href="@{/css/layout/layout.css}">
 	
 		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
@@ -17,9 +19,9 @@
 		<!--ヘッダー（ナビゲーションバー）-->
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<!--コンテンツ-->
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-10 offset-sm-2 main">
+		<div class="container-fluid py-3">
+			<div class="row  justify-content-center">
+				<div class="col-12 col-md-10 col-lg-9 main">
 					<div layout:fragment="content"></div>
 				</div>
 			</div>

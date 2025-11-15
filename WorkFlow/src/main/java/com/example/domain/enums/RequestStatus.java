@@ -7,7 +7,7 @@ package com.example.domain.enums;
 public enum RequestStatus {
 	PENDING("未承認"), 
 	APPROVED("承認"), 
-	REJECTED("未承認"),
+	REJECTED("却下"),
 	REMAND("差し戻し");
 	
 	private final String statusLabel;

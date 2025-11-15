@@ -1,9 +1,10 @@
 package com.example.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	PasswordEncoder encoder;
 
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Transactional
 	@Override
-	public void updateUserOne(String email, String password, String name, Integer departmentId) {
+	public void updateUserOne(String email, String password, String name, Integer departmentId, LocalDate joiningDate) {
 		// ユーザーの取得
 		UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
 
@@ -65,6 +66,7 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(encoder.encode(password));
 		user.setName(name);
 		user.setDepartmentId(departmentId);
+		user.setJoiningDate(joiningDate);
 
 		// 保存（saveはUPDATEもINSERTも行う）
 		userRepository.save(user);
@@ -87,6 +89,19 @@ public class UserServiceImpl implements UserService {
 		Optional<UserEntity> optional = userRepository.findByEmail(email);
 		UserEntity userEntity = optional.orElse(null);
 		return userEntity;
+	}
+
+	/**
+	 * パスワード更新用
+	 */
+	@Override
+	public void updatePassword(String email, String encodedPassword) {
+		UserEntity u = userRepository.findByEmail(email).orElse(null);
+		if (u == null) {
+			throw new IllegalArgumentException("ユーザーが見つかりません");
+		}
+		u.setPassword(encodedPassword);
+		userRepository.save(u);
 	}
 
 }

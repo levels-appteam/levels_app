@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,4 +90,18 @@ public class AttendanceServiceImpl implements AttendanceService {
 			return type;
 		}
 	}
+
+	/**
+	 * 打刻チェック
+	 */
+	public boolean hasPunchedToday(Integer userId) {
+		LocalDate today = LocalDate.now();
+		UserEntity user = userRepository.findById(userId).orElseThrow();
+
+		Optional<AttendanceEntity> attendanceOpt = attendanceRepository.findByUserEntityAndWorkDate(user, today);
+
+		//打刻判定
+		return attendanceOpt.isPresent();
+	}
+
 }

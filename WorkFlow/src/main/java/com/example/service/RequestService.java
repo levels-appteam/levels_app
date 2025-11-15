@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.domain.entity.RequestEntity;
@@ -57,11 +58,20 @@ public interface RequestService {
 	 */
 	void saveCorrectionRequest(UserEntity userEntity, RequestForm requestForm);
 
+	
 	/**
-	 * 承認用ユーザー申請一覧取得
-	 * 
+	 * カレンダー用有給承認取得
+	 * @param userEntity
+	 * @param startDate
+	 * @param endDate
 	 * @return
 	 */
-	List<UserEntity> findDistinctUsersWithPendingRequests();
+	List<RequestEntity> getApprovedList(UserEntity userEntity, LocalDate startDate, LocalDate endDate);
+
+	/**
+	 * 承認画面用リスト表示
+	 * @return
+	 */
+	List<RequestEntity> findAllWithUserOrderBySubmittedAtDesc();
 
 }

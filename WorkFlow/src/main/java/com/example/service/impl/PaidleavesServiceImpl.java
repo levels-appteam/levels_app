@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +47,15 @@ public class PaidleavesServiceImpl implements PaidleavesService {
 	}
 
 	/**
+	 *有給管理表示用
+	 *ユーザー有給情報
+	 */
+	@Override
+	public List<PaidleavesEntity> getAllPaidleaves() {
+		return paidleavesRepository.findAllByOrderByUserEntity_NameAscGrantDateAsc();
+	}
+
+	/**
 	 * ユーザーごとの有給取得
 	 */
 	public List<PaidleavesEntity> getPaidleavesByUser(UserEntity user) {
@@ -62,7 +71,7 @@ public class PaidleavesServiceImpl implements PaidleavesService {
 	}
 
 	/**
-	 *有給申請分の計算
+	 * 有給申請分の計算
 	 */
 	@Transactional
 	@Override
@@ -174,6 +183,25 @@ public class PaidleavesServiceImpl implements PaidleavesService {
 		paidLeave.setUsedDays(0f);
 
 		paidleavesRepository.save(paidLeave);
+	}
+
+	/**
+	 * 有給残日数計算 ユーザー詳細表示用
+	 */
+	@Override
+	public float getRemainingDays(UserEntity user) {
+		LocalDate today = LocalDate.now();
+		List<PaidleavesEntity> active = paidleavesRepository.findByUserEntityAndRevocationDateAfter(user, today);
+
+		float total = 0f;
+		for (PaidleavesEntity p : active) {
+			float remaining = (p.getDays() != null ? p.getDays() : 0f)
+					- (p.getUsedDays() != null ? p.getUsedDays() : 0f);
+			if (remaining > 0f) {
+				total += remaining;
+			}
+		}
+		return total;
 	}
 
 }

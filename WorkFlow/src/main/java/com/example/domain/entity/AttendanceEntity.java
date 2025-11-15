@@ -3,16 +3,16 @@ package com.example.domain.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import com.example.domain.enums.AttendanceType;
 
@@ -51,7 +51,7 @@ public class AttendanceEntity {
 	@Column(name = "work_date", nullable = false)
 	private LocalDate workDate;
 
-	/*
+	/**
 	 * 出退勤の値のリレーション 文字列型に変換する
 	 */
 	@Enumerated(EnumType.STRING)

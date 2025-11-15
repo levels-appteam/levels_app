@@ -49,12 +49,13 @@ public class ApprovalsController {
 		String email = userDetails.getUsername();
 		UserEntity loginUser = userService.getLoginUser(email);
 
-		// 全ユーザーの申請を取得表示
-		List<UserEntity> userList = requestService.findDistinctUsersWithPendingRequests();
-
+		// 全ユーザーの申請を取得表示（新しい準）
+		List<RequestDto> requests = requestService.findAllWithUserOrderBySubmittedAtDesc().stream()
+				.map(RequestDto::fromEntity).collect(Collectors.toList());
 		// modelに渡す
-		model.addAttribute("userList", userList);
 		model.addAttribute("loginUser", loginUser);
+		model.addAttribute("requests", requests);
+		model.addAttribute("statuses", new String[] { "ALL", "PENDING", "APPROVED", "REJECTED", "REMAND" });
 
 		return "approvals/list";
 
@@ -83,8 +84,7 @@ public class ApprovalsController {
 	 */
 	@PostMapping("/approve")
 	public String approveRequest(@RequestParam("requestId") Integer requestId,
-			@RequestParam("decision") String decision, 
-			@AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam("decision") String decision, @AuthenticationPrincipal UserDetails userDetails,
 			RedirectAttributes redirectAttributes) {
 
 		// ログインユーザーの取得

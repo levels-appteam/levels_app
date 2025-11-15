@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8"></meta>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--CSS読み込み-->
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/login/login.css}">
-    <!--JS読み込み-->
-    <script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
-    <script th:src="@{/webjars/bootstrap/css/bootstrap.min.js}" defer></script>
-    <title>ログイン</title>
+	<meta charset="UTF-8">
+	</meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!--CSS読み込み-->
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/login/login.css}">
+	<!--JS読み込み-->
+	<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+	<title>ログイン</title>
 </head>
 
 <body class="bg-light">
 	<div class="text-center">
 		<form method="post" th:action="@{/login}" class="form-login">
 			<h2>ログイン</h2>
-			<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="text-danger">ログインエラーメッセージ</p>
+			<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
+				th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="text-danger">ログインエラーメッセージ</p>
 			<!--ユーザーID-->
 			<div class="form-group">
-				<label for="email" class="sr-only">userId</label>
-				<input type="text" class="form-control" placeholder="ユーザーID" name="email"/>
+				<label for="email" class="sr-only">ユーザーID</label>
+				<input type="text" class="form-control" placeholder="ユーザーID" name="email" />
 			</div>
 			<!--パスワード-->
 			<div class="form-group">
-				<label for="password" class="sr-only">password</label>
-				<input type="password" class="form-control" placeholder="パスワード" name="password"/>
+				<label for="password" class="sr-only">パスワード</label>
+				<input type="password" class="form-control" placeholder="パスワード" name="password" />
 			</div>
-			<input type="submit" value="ログイン" class="btn btn-primary"/>
+
+			<!-- パスワード変更画面 -->
+			<div style="margin-top: 15px; margin-bottom: 15px;">
+				<a th:href="@{/password/change}">パスワードを忘れた方</a>
+			</div>
+			
+			<input type="submit" value="ログイン" class="btn btn-primary" style="margin-top: 10px;" />
 		</form>
 	</div>
 </body>
-</html>
+
 </html>

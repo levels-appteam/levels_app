@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.domain.entity.UserEntity;
@@ -37,7 +38,7 @@ public interface UserService {
 	 * @param password
 	 * @param name
 	 */
-	public void updateUserOne(String email, String password, String name, Integer departmentId);
+	public void updateUserOne(String email, String password, String name, Integer departmentId, LocalDate joiningDate);
 	
 	/**
 	 * ユーザー削除
@@ -53,5 +54,12 @@ public interface UserService {
 	 * @param email
 	 */
 	public UserEntity getLoginUser(String email);
+	
+	/**
+	 * パスワード更新用
+	 * @param email
+	 * @param encodedPassword
+	 */
+	void updatePassword(String email, String encodedPassword);
 
 }

@@ -17,6 +17,8 @@ import com.example.repository.RequestRepository;
 import com.example.service.ApprovalsService;
 import com.example.service.PaidleavesService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ApprovalsServiceImpl implements ApprovalsService {
 
@@ -51,6 +53,7 @@ public class ApprovalsServiceImpl implements ApprovalsService {
 		return approvalsRepository.findByApprover(userApprover);
 	}
 
+	@Transactional
 	@Override
 	public void processApproval(Integer requestId, String decision, UserEntity loginUser) {
 		RequestEntity request = requestRepository.findById(requestId)

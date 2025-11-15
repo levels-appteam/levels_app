@@ -22,9 +22,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	// 登録済みかどうかの確認用メソッド
 	boolean existsByEmail(String email);
 
-	// 部署IDでユーザー一覧を取得
-	List<UserEntity> findByDepartmentId(String departmentId);
-
 	// 権限（ロール）でユーザー一覧を取得
 	List<UserEntity> findByRole(Role role);
 

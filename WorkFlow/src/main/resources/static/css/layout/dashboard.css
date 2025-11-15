@@ -1,0 +1,32 @@
+.dashboard-calendar {
+	background-color: #007bff;
+	color: white;
+	padding: 40px;
+	text-align: center;
+	font-size: 1.5rem;
+	border-radius: 8px;
+}
+
+#calendar {
+	width: 80%;
+	max-width: none !important;
+	max-height: 600px;
+}
+
+.dashboard-buttons {
+	width: 320px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.container-fluid.p-3 .col-md-9 {
+	flex: 1 1 700px;
+	min-width: 520px;
+}
+
+.container-fluid.p-3 {
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+}

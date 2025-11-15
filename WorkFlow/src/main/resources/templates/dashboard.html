@@ -1,50 +1,60 @@
 <!DOCTYPE html>
-<html xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-	<head>
-		<meta charset="UTF-8"></meta>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		
-		<!--CSS読み込み-->
-		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-		<!-- jQuery と Bootstrap JS -->
-		<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-		<script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}"></script>
-		
-		<title>ダッシュボード</title>
-	</head>
-	<body>
-		 <div layout:fragment="content">
-			<div class="container-fluid p-3">
-				<!-- カレンダーエリア -->
-				<div class="col-md-9">
-					<div class="dashboard-calendar">カレンダー</div>
-				</div>
+<html xmlns="http://www.thymeleaf.org" xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 
-				<!-- ボタンエリア -->
-				<div class="col-md-3 d-flex flex-column dashboard-buttons">
-					<!--出勤ボタン-->
-					<form method="post" action="/attendance/punch">
-						<input type="hidden" name="type" value="IN">
-						<button class="btn btn-success mb-2 w-100" type="submit" th:disabled="${!in}">出勤</button>
-					</form>
-					<!-- 休憩開始ボタン -->
-					<form method="post" action="/attendance/punch">
-						<input type="hidden" name="type" value="BREAK_IN">
-						<button class="btn btn-warning mb-2 w-100" type="submit" th:disabled="${!breakIn}">休憩開始</button>
-					</form>
-					<!-- 休憩終了ボタン -->
-					<form method="post" action="/attendance/punch">
-						<input type="hidden" name="type" value="BREAK_OUT">
-						<button class="btn btn-warning mb-2 w-100" type="submit" th:disabled="${!breakOut}">休憩終了</button>
-					</form>
-					<!-- 退勤ボタン -->
-					<form method="post" action="/attendance/punch">
-						<input type="hidden" name="type" value="OUT">
-						<button class="btn btn-danger mb-2 w-100" type="submit"　th:disabled="${!out}">退勤</button>
-					</form>
-					<button class="btn btn-secondary">現在時刻</button>
-				</div>
+<head>
+	<meta charset="UTF-8">
+	</meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!--CSS読み込み-->
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/layout/dashboard.css}">
+	<!-- jQuery と Bootstrap JS -->
+	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.js"></script>
+	<script th:src="@{/js/calendar.js}" defer></script>
+	<script th:src="@{/js/dashboard.js}" defer></script>
+
+	<title>ダッシュボード</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container-fluid p-3" style="margin-top: 20px;">
+			<!-- カレンダーエリア -->
+			<div class="col-md-9">
+				<div id='calendar' style="max-width:600px;max-height:600px;"></div>
+			</div>
+
+			<!-- ボタンエリア -->
+			<div class="dashboard-buttons">
+				<!--出勤ボタン-->
+				<form method="post" action="/attendance/punch">
+					<input type="hidden" name="type" value="IN">
+					<button class="btn btn-success mb-2 w-100" type="submit" th:disabled="${!in}"
+						th:onclick="${alreadyIn} ? 'return confirm(\'本日の打刻を更新します。よろしいですか？\')' : null">出勤</button>
+				</form>
+				<!-- 休憩開始ボタン -->
+				<form method="post" action="/attendance/punch">
+					<input type="hidden" name="type" value="BREAK_IN">
+					<button class="btn btn-warning mb-2 w-100" type="submit" th:disabled="${!breakIn}">休憩開始</button>
+				</form>
+				<!-- 休憩終了ボタン -->
+				<form method="post" action="/attendance/punch">
+					<input type="hidden" name="type" value="BREAK_OUT">
+					<button class="btn btn-warning mb-2 w-100" type="submit" th:disabled="${!breakOut}">休憩終了</button>
+				</form>
+				<!-- 退勤ボタン -->
+				<form method="post" action="/attendance/punch">
+					<input type="hidden" name="type" value="OUT">
+					<button class="btn btn-danger mb-2 w-100" type="submit" 　th:disabled="${!out}">退勤</button>
+				</form>
+				<p class="bg-light btn btn-light">現在時刻：<span id="clock"></span></p>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
+
 </html>

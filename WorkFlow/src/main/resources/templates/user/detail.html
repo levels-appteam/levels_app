@@ -10,7 +10,7 @@
 
 <body>
 	<div layout:fragment="content">
-		<div class="header border-bottom">
+		<div class="header border-bottom" style="margin-top: 20px;">
 			<h1 class="h2">ユーザー詳細編集画面</h1>
 		</div>
 		<form id="user-detail-form" method="post" class="form-signup" th:action="@{/user/detail}"
@@ -26,7 +26,7 @@
 					<tr>
 						<th>パスワード</th>
 						<td>
-							<input type="password" class="form-control" th:field="*{password}" />
+							<a class="btn btn-outline-primary" th:href="@{/password/change}">パスワードを編集する</a>
 						</td>
 					</tr>
 					<tr>
@@ -36,9 +36,17 @@
 						</td>
 					</tr>
 					<tr sec:authorize="hasRole('ADMIN')">
-						<th>部署名</thsec:authorize="hasAuthority('ADMIN')">
+						<th>部署名</th>
 						<td>
-							<input type="text" class="form-control" th:field="*{departmentId}" />
+							<select class="form-control" th:field="*{departmentId}">
+								<option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.label}">
+								</option>
+							</select>
+						</td>
+					<tr sec:authorize="hasRole('ADMIN')">
+						<th>入社日</th>
+						<td>
+							<input type="text" class="form-control" th:field="*{joiningDate}" />
 						</td>
 					</tr>
 				</tbody>

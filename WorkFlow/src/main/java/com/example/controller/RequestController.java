@@ -130,7 +130,7 @@ public class RequestController {
 		
 		requestService.savePaidLeaveRequest(loginUser, requestForm);
 		
-		return "redirect:/requests/kind";
+		return "redirect:/requests/paidleave";
 	}
 	/**
 	 * 勤務修正申請画面表示
@@ -202,6 +202,6 @@ public class RequestController {
 		
 		requestService.saveCorrectionRequest(loginUser, requestForm);
 		
-		return "redirect:/requests/kind";
+		return "redirect:/requests/correction";
 	}
 }

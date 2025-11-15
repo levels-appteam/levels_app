@@ -1,6 +1,51 @@
 .form-login {
 	width: 100%;
-	max-width: 330px;
-	padding: 15px;
+	min-width: 500px;
+	max-width: 700px;
+	padding: 40px;
 	margin: auto;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-login h2 {
+	margin-bottom: 30px;
+	margin-top: 0;
+}
+
+.form-login .form-group {
+	margin-bottom: 20px;
+}
+
+.form-login .form-group label {
+	margin-bottom: 8px;
+	display: block;
+	text-align: left;
+}
+
+.form-login .form-control {
+	text-align: left;
+}
+
+.form-login .btn {
+	margin-top: 10px;
+}
+
+.form-login .btn-primary:only-of-type {
+	width: 100%;
+}
+
+.form-login .btn-secondary {
+	margin-top: 10px;
+}
+
+body.bg-light {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
 }

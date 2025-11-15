@@ -7,53 +7,56 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!--CSS読み込み-->
 	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{/css/user/signup.css}">
+	<link rel="stylesheet" th:href="@{/css/login/login.css}">
 	<!--JS読み込み-->
 	<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
-	<script th:src="@{/webjars/bootstrap/css/bootstrap.min.js}" defer></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
 	<title th:text="#{user.signup.title}"></title>
 </head>
 
 <body class="bg-light">
-	<form id="signup-form" method="post" th:action="@{/usermanagement/signup}" class="form-signup"
-		th:object="${signupForm}">
-		<h1 class="text-center" th:text="#{user.signup.title}"></h1>
-		<!--ユーザーID-->
-		<div class="form-group">
-			<label for="email" th:text="#{email}"></label>
-			<input type="text" class="form-control" th:field="*{email}" th:errorclass="is-invalid" />
-			<div class="invalid-feedback" th:errors="*{email}"></div>
-		</div>
-		<!--パスワード-->
-		<div class="form-group">
-			<label for="password" th:text="#{password}"></label>
-			<input type="text" class="form-control" th:field="*{password}" th:errorclass="is-invalid" />
-			<div class="invalid-feedback" th:errors="*{password}"></div>
-		</div>
-		<!--ユーザー名-->
-		<div class="form-group">
-			<label for="name" th:text="#{name}"></label>
-			<input type="text" class="form-control" th:field="*{name}" th:errorclass="is-invalid" />
-			<div class="invalid-feedback" th:errors="*{name}"></div>
-		</div>
-		<!-- 部署選択 -->
-		<div class="form-group">
-			<label for="departmentId" th:text="#{departmentId}">部署</label>
-			<select class="form-control" th:field="*{departmentId}" th:errorclass="is-invalid">
-				<option value="1">人事部</option>
-				<option value="2">IT部</option>
-				<option value="3">営業部</option>
-			</select>
-			<div class="invalid-feedback" th:errors="*{departmentId}"></div>
-		</div>
-		<!--入社日登録-->
-		<div class="form-group">
-			<label for="joiningDate">入社日</label>
-			<input type="date" id="joiningDate" class="form-control" th:field="*{joiningDate}" />
-		</div>
-		<!--登録ボタン-->
-		<input type="submit" th:value="#{user.signup.btn}" class="btn btn-primary w-100 mt-3" />
-	</form>
+	<div class="text-center">
+		<form id="signup-form" method="post" th:action="@{/usermanagement/signup}" class="form-login"
+			th:object="${signupForm}">
+			<h2 th:text="#{user.signup.title}"></h2>
+			<!--ユーザーID-->
+			<div class="form-group">
+				<label for="email" th:text="#{email}"></label>
+				<input type="text" class="form-control" th:field="*{email}" th:errorclass="is-invalid" />
+				<div class="invalid-feedback" th:errors="*{email}"></div>
+			</div>
+			<!--パスワード-->
+			<div class="form-group">
+				<label for="password" th:text="#{password}"></label>
+				<input type="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid" />
+				<div class="invalid-feedback" th:errors="*{password}"></div>
+			</div>
+			<!--ユーザー名-->
+			<div class="form-group">
+				<label for="name" th:text="#{name}"></label>
+				<input type="text" class="form-control" th:field="*{name}" th:errorclass="is-invalid" />
+				<div class="invalid-feedback" th:errors="*{name}"></div>
+			</div>
+			<!-- 部署選択 -->
+			<div class="form-group">
+				<label for="departmentId" th:text="#{departmentId}">部署</label>
+				<select class="form-control" th:field="*{departmentId}" th:errorclass="is-invalid">
+					<option value="1">人事部</option>
+					<option value="2">IT部</option>
+					<option value="3">営業部</option>
+				</select>
+				<div class="invalid-feedback" th:errors="*{departmentId}"></div>
+			</div>
+			<!--入社日登録-->
+			<div class="form-group">
+				<label for="joiningDate" th:text="#{userForm.joiningDate}">入社日</label>
+				<input type="date" id="joiningDate" class="form-control" th:field="*{joiningDate}" th:errorclass="is-invalid"/>
+				<div class="invalid-feedback" th:errors="*{joiningDate}"></div>
+			</div>
+			<!--登録ボタン-->
+			<input type="submit" th:value="#{user.signup.btn}" class="btn btn-primary w-100 mt-3" />
+		</form>
+	</div>
 </body>
 
 </html>

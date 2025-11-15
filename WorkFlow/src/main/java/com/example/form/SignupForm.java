@@ -2,9 +2,10 @@ package com.example.form;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -43,6 +44,7 @@ public class SignupForm {
 	private Integer departmentId;
 
 	// 入社日
+	@NotNull(groups = ValidGroup1.class)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate joiningDate;
 }

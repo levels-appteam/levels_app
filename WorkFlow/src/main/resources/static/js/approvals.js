@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						table.setAttribute("data-status", request.status);
 
 						table.innerHTML = `
+							<tr><th>申請者</th><td>${userName}</td></tr>
 							<tr><th>申請種別</th><td>${request.kindLabel}</td></tr>
 							<tr><th>対象日</th><td>${request.targetDate}</td></tr>
 							<tr><th>提出日</th><td>${request.submittedAt}</td></tr>

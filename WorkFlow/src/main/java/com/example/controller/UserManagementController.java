@@ -76,7 +76,7 @@ public class UserManagementController {
 	 * @return user/signup
 	 */
 	@GetMapping("/signup")
-	public String getSignup(Model model, @ModelAttribute SignupForm form) {
+	public String getSignup(Model model, @Validated @ModelAttribute SignupForm form) {
 		// ユーザー登録画面に遷移
 		return "usermanagement/signup";
 	}

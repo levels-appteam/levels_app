@@ -1,4 +1,4 @@
-package com.example.service.impl;
+package com.example.logic;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.example.domain.entity.UserEntity;
 import com.example.service.PaidleavesService;
 
 @Component
-public class PaidleavesSchedulerServiceImpl {
+public class PaidleavesScheduler {
 
 	@Autowired
 	private PaidleavesService paidleavesService;

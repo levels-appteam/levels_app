@@ -24,6 +24,8 @@ public class RequestDto {
 	 */
 	private Integer id;
 
+	private String userName;
+
 	/**
 	 * 申請種類
 	 */
@@ -54,14 +56,25 @@ public class RequestDto {
 	private String comment;
 
 	/**
-	 * 申請種類を日本語表示
-	 * list.jsに送れるようにする
+	 * 申請種類を日本語表示 list.jsに送れるようにする
+	 * 
 	 * @return
 	 */
 	@JsonProperty("kindLabel")
 	public String getKindLabel() {
 		return kind.getLabel();
 	}
+
+	/**
+	 * 承認ステータス表示
+	 * 
+	 * @return
+	 */
+	@JsonProperty("statusLabel")
+	public String getStatusLabel() {
+		return status.getLabel();
+	}
+
 	/**
 	 * エンティティからDTOに変換するメソッド
 	 * 
@@ -69,7 +82,8 @@ public class RequestDto {
 	 * @return
 	 */
 	public static RequestDto fromEntity(RequestEntity entity) {
-		return new RequestDto(entity.getId(), entity.getKind(), entity.getStatus(), entity.getTargetDate(),
+		String name = entity.getUserEntity() != null ? entity.getUserEntity().getName() : "";
+		return new RequestDto(entity.getId(), name, entity.getKind(), entity.getStatus(), entity.getTargetDate(),
 				entity.getSubmittedAt(), entity.getComment());
 	}
 }

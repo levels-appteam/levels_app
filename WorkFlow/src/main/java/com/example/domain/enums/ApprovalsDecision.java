@@ -6,7 +6,7 @@ package com.example.domain.enums;
 public enum ApprovalsDecision {
 	PENDING("未承認"), 
 	APPROVED("承認済み"), 
-	REJECTED("非承認"), 
+	REJECTED("却下"), 
 	REMAND("差し戻し");
 	
 	private final String decisionLabel;
