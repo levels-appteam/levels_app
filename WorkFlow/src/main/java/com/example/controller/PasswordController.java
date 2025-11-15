@@ -39,13 +39,15 @@ public class PasswordController {
 	 */
 	@GetMapping("/change")
 	public String showChangeForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		ChangePasswordForm form = new ChangePasswordForm();
 		if (Objects.nonNull(userDetails) && !userDetails.getUsername().isEmpty()) {
 
 			UserEntity loginUser = userService.getLoginUser(userDetails.getUsername());
-			model.addAttribute("userId", loginUser.getEmail());
+			form.setUserId(loginUser.getEmail());
+//			model.addAttribute("userId", loginUser.getEmail());
 		}
 		if (!model.containsAttribute("changePasswordForm")) {
-			model.addAttribute("changePasswordForm", new ChangePasswordForm());
+			model.addAttribute("changePasswordForm", form);
 		}
 		return "user/change_password";
 	}
@@ -74,7 +76,6 @@ public class PasswordController {
 		}
 
 		// TODO：現在のパスワード削除、パラメーターにuserIdを追加
-
 
 		// 更新
 		String encoded = passwordEncoder.encode(form.getNewPassword());
