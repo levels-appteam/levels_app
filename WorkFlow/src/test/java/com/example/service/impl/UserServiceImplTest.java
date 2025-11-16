@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -124,13 +123,22 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	@DisplayName("正常：deleteByEmailでユーザーを削除")
+	@DisplayName("正常：deleteByEmailでユーザーを論理削除")
 	void testDeleteByEmail() {
-		doNothing().when(userRepository).deleteByEmail("taro@example.com");
+		// ユーザーを取得するモック
+		when(userRepository.findByEmail("taro@example.com")).thenReturn(Optional.of(user));
+		// save() のモック
+		when(userRepository.save(any(UserEntity.class))).thenReturn(user);
 
+		// テスト対象呼び出し
 		userService.deleteByEmail("taro@example.com");
 
-		verify(userRepository, times(1)).deleteByEmail("taro@example.com");
+		// deletedAtが設定されたことを検証
+		assertThat(user.getDeletedAt()).isNotNull();
+		
+		// save() が呼ばれたことを確認
+		verify(userRepository, times(1)).findByEmail("taro@example.com");
+		verify(userRepository, times(1)).save(user);
 	}
 
 	@Test

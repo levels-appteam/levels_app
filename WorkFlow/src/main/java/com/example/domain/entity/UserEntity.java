@@ -1,6 +1,7 @@
 package com.example.domain.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -13,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+
+import org.hibernate.annotations.SQLRestriction;
 
 import com.example.domain.enums.DepartmentEnum;
 import com.example.domain.enums.Role;
@@ -27,6 +30,7 @@ import lombok.ToString;
 @ToString(exclude = "attendanceList")
 @Entity
 @Table(name = "users")
+@SQLRestriction("deleted_at IS NULL")
 public class UserEntity {
 
 	/**
@@ -78,6 +82,13 @@ public class UserEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
 	private Role role;
+
+	/**
+	 * 論理削除フラグ（削除日時）
+	 * NULLの場合は削除されていない、値がある場合は削除されている
+	 */
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 
 	/**
 	 * このユーザーに紐づく打刻一覧（attendanceテーブル） AttendanceEntity 側の `user` フィールドを参照

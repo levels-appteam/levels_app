@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,12 +85,16 @@ public class UserManagementServiceImpl implements UserManagementService {
 	}
 
 	/**
-	 * ユーザー削除
+	 * ユーザー削除（論理削除）
+	 * deletedAtフィールドに現在日時を設定することで論理削除を実現
 	 */
 	@Transactional
 	@Override
 	public void deleteByEmail(String email) {
-		userRepository.deleteByEmail(email);
+		UserEntity user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
+		user.setDeletedAt(LocalDateTime.now());
+		userRepository.save(user);
 	}
 
 }
