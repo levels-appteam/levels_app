@@ -3,7 +3,7 @@ package com.example.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +38,7 @@ public class UserManagementServiceImpl implements UserManagementService {
 	public void signup(UserEntity userEntity) {
 		boolean exists = userRepository.existsByEmail(userEntity.getEmail());
 		if (exists) {
-			throw new DataAccessException("ユーザーが既に存在") {
-			};
+			throw new DuplicateKeyException("ユーザーが既に存在");
 		}
 
 		userEntity.setRole(Role.GENERAL);

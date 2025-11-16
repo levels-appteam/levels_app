@@ -89,10 +89,8 @@ class AttendanceServiceImplTest {
 		when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
 		try {
-			// when
 			attendanceService.recordPunch(userId, AttendanceType.IN);
-			// then
-			// ここまで来れば「例外が発生しなかった」と判断
+
 		} catch (Exception e) {
 			fail("例外が発生しました: " + e.getMessage());
 		}
