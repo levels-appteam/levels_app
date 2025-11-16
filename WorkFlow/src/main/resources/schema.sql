@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
 	name VARCHAR(50) NOT NULL, 
 	password VARCHAR(100) NOT NULL, 
 	department_id VARCHAR(50) NOT NULL, 
-	role ENUM('GENERAL', 'ADMIN') DEFAULT 'GENERAL'
+	role ENUM('GENERAL', 'ADMIN') DEFAULT 'GENERAL',
+	deleted_at DATETIME NULL
 );
 
 /*departmentテーブル作成

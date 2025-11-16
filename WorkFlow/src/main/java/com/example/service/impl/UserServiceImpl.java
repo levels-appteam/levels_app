@@ -1,7 +1,9 @@
 package com.example.service.impl;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import jakarta.transaction.Transactional;
@@ -62,8 +64,10 @@ public class UserServiceImpl implements UserService {
 		// ユーザーの取得
 		UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
 
-		// 値を更新（必要ならパスワードを暗号化）
-		user.setPassword(encoder.encode(password));
+		// パスワードがnullまたは空でない場合のみ更新（既存のパスワードを保持）
+		if (Objects.nonNull(password) && !password.isEmpty()) {
+			user.setPassword(encoder.encode(password));
+		}
 		user.setName(name);
 		user.setDepartmentId(departmentId);
 		user.setJoiningDate(joiningDate);
@@ -73,12 +77,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * ユーザー削除
+	 * ユーザー削除（論理削除）
+	 * deletedAtフィールドに現在日時を設定することで論理削除を実現
 	 */
 	@Transactional
 	@Override
 	public void deleteByEmail(String email) {
-		userRepository.deleteByEmail(email);
+		UserEntity user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
+		user.setDeletedAt(LocalDateTime.now());
+		userRepository.save(user);
 	}
 
 	/**

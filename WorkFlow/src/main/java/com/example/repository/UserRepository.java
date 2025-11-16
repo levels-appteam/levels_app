@@ -25,8 +25,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	// 権限（ロール）でユーザー一覧を取得
 	List<UserEntity> findByRole(Role role);
 
-	void deleteByEmail(String email);
-
 	/**
 	 * 部署でユーザー取得
 	 * 
