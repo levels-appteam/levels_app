@@ -4,8 +4,15 @@
 
 <head>
 	<title>申請承認画面</title>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 	<link rel="stylesheet" th:href="@{/css/user/list.css}">
 	<script th:src="@{/js/appList.js}" defer></script>
+	<!-- Bootstrap JS -->
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+	<script src="https://unpkg.com/htmx.org@1.9.5"></script>
+
 </head>
 
 <body layout:fragment="content">
@@ -41,32 +48,46 @@
 							<th class="th-width">対象日</th>
 							<th class="th-width">提出日</th>
 							<th class="th-width">ステータス</th>
-							<th class="th-width">操作</th>
+							<!--<th class="th-width">操作</th>-->
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="r : ${requests}" th:attr="data-status=${r.status.name()}">
+						<tr th:each="r : ${requests}" th:attr="data-status=${r.status.name()}"
+							th:hx-get="'/approvals/listModal/' + ${r.id}" hx-target="#modal-content" hx-trigger="click"
+							data-bs-toggle="modal" data-bs-target="#modals-here">
 							<td th:text="${r.userName}"></td>
 							<td th:text="${r.kindLabel}"></td>
 							<td th:text="${r.targetDate}"></td>
 							<td th:text="${#temporals.format(r.submittedAt,'yyyy-MM-dd HH:mm')}"></td>
 							<td th:text="${r.statusLabel}"></td>
-							<td>
+							<!--<td>
 								<form th:if="${r.status.name() == 'PENDING'}" action="/approvals/approve" method="post"
 									style="display:inline;">
 									<input type="hidden" name="requestId" th:value="${r.id}">
-									<button type="submit" name="decision" value="APPROVED" class="btn btn-sm btn-success">承認</button>
-									<button type="submit" name="decision" value="REJECTED" class="btn btn-sm btn-danger">却下</button>
-									<button type="submit" name="decision" value="REMAND" class="btn btn-sm btn-warning">差し戻し</button>
+									<button type="submit" name="decision" value="APPROVED"
+										class="btn btn-sm btn-success">承認</button>
+									<button type="submit" name="decision" value="REJECTED"
+										class="btn btn-sm btn-danger">却下</button>
+									<button type="submit" name="decision" value="REMAND"
+										class="btn btn-sm btn-warning">差し戻し</button>
 								</form>
-								<span th:if="${r.status.name() != 'PENDING'}" th:text="${'処理済: ' + r.statusLabel}"></span>
-							</td>
+								<span th:if="${r.status.name() != 'PENDING'}"
+									th:text="${'処理済: ' + r.statusLabel}"></span>
+							</td>-->
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
+		<!--モーダル-->
+		<div id="modals-here" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" id="dialog">
+				<div class="modal-content" id="modal-content">
+				</div>
+			</div>
+		</div>
 	</div>
+
 </body>
 
 </html>

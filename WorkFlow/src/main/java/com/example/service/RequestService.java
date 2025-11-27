@@ -25,6 +25,8 @@ public interface RequestService {
 	 * @return
 	 */
 	List<RequestEntity> getRequestsByStatus(RequestStatus status);
+	
+	RequestEntity getRequestById(Integer id);
 
 	/**
 	 * 有給申請情報取得

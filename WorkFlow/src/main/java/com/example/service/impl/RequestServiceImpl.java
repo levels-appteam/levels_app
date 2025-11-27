@@ -32,6 +32,10 @@ public class RequestServiceImpl implements RequestService {
 		return requestRepository.findByUserEntity(userEntity);
 	}
 
+	public RequestEntity getRequestById(Integer id) {
+		return requestRepository.findById(id).orElseThrow(() -> new RuntimeException("申請が見つかりません"));
+	}
+
 	/**
 	 * 全ユーザーの申請取得
 	 */
@@ -84,9 +88,9 @@ public class RequestServiceImpl implements RequestService {
 	public List<RequestEntity> getUserCorrectionRequests(UserEntity userEntity) {
 		return requestRepository.findByUserEntityAndKind(userEntity, RequestKind.CORRECTION);
 	}
-	
+
 	/**
-	 *承認用のユーザー申請一覧を取得する
+	 * 承認用のユーザー申請一覧を取得する
 	 */
 	@Override
 	public List<RequestEntity> findAllWithUserOrderBySubmittedAtDesc() {
