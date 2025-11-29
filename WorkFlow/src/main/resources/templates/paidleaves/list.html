@@ -20,6 +20,7 @@
 						<thead class="table-dark">
 							<tr>
 								<th>社員名</th>
+								<th>入社日</th>
 								<th>付与日</th>
 								<th>失効日</th>
 								<th>付与日数</th>
@@ -30,6 +31,7 @@
 						<tbody>
 							<tr th:each="p : ${paidleaves}">
 								<td th:text="${p.userEntity.name}"></td>
+								<td th:text="${p.userEntity.joiningDate}"></td>
 								<td th:text="${p.grantDate}"></td>
 								<td th:text="${p.revocationDate}"></td>
 								<td th:text="|${p.days}日|"></td>

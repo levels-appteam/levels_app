@@ -2,11 +2,13 @@ package com.example.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 勤怠履歴表示用のDTO
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class AttendanceSummaryDto {
 	/**

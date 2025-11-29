@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.domain.dto.AttendanceSummaryDto;
 import com.example.domain.dto.RequestDto;
 import com.example.domain.entity.RequestEntity;
 import com.example.domain.entity.UserEntity;
 import com.example.service.ApprovalsService;
+import com.example.service.AttendanceSummaryService;
 import com.example.service.RequestService;
 import com.example.service.UserService;
 
@@ -36,6 +38,9 @@ public class ApprovalsController {
 
 	@Autowired
 	private RequestService requestService;
+
+	@Autowired
+	private AttendanceSummaryService attendanceSummaryService;
 
 	/**
 	 * 左側に申請したユーザー表示
@@ -64,12 +69,15 @@ public class ApprovalsController {
 	}
 
 	@GetMapping("/listModal/{id}")
-	public String getModal(@PathVariable Integer id, Model model) {
+	public String getModal(@PathVariable Integer id, String workStart, String workEnd, Model model) {
 		// 申請取得
 		RequestEntity request = requestService.getRequestById(id);
 		RequestDto requestDto = RequestDto.fromEntity(request);
 		model.addAttribute("dto", requestDto);
 
+		// 勤怠情報取得
+		AttendanceSummaryDto worktimereq = attendanceSummaryService.getWorkTimeDto(workStart, workEnd);
+		model.addAttribute("workDto", worktimereq);
 		// 申請をモーダル表示
 		return "approvals/listModal :: modalContent";
 	}
@@ -98,14 +106,22 @@ public class ApprovalsController {
 	@PostMapping("/approve")
 	public String approveRequest(@RequestParam("requestId") Integer requestId,
 			@RequestParam("decision") String decision, @RequestParam("targetDate") LocalDate targetdate,
+			@RequestParam("workStart") String workStart, @RequestParam("workEnd") String workEnd,
 			@AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttributes) {
 
 		// ログインユーザーの取得
 		String email = userDetails.getUsername();
 		UserEntity loginUser = userService.getLoginUser(email);
 
+		// 申請の種別を取得（PAID_LEAVE or CORRECTION）
+		RequestEntity request = requestService.getRequestById(requestId);
+		
+		// 勤怠の承認
+		if (request.getKind().name().equals("CORRECTION")) {
+			attendanceSummaryService.updateWorkTime(loginUser, targetdate, workStart, workEnd);
+		}
+		// 有給and勤怠修正の承認
 		approvalsService.processApproval(requestId, decision, loginUser, targetdate);
-
 		// 承認ボタン押下後メッセージ
 		redirectAttributes.addFlashAttribute("message", "承認処理が完了しました");
 

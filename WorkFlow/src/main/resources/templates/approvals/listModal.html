@@ -17,23 +17,23 @@
 			<!--有給申請の場合-->
 			<div th:if="${dto.kind.name() == 'PAID_LEAVE'}">
 				<strong>対象日:</strong>
-				<input id="targetDate" class="form-control"
+				<input id="targetDate" name="targetDate" class="form-control"
 					th:type="${dto.status.name() == 'PENDING'} ? 'date' : 'text'" th:value="${dto.targetDate}"
 					th:readonly="${dto.status.name() != 'PENDING'}"></p>
 			</div>
 			<!--勤怠修正の場合-->
 			<div th:if="${dto.kind.name() == 'CORRECTION'}">
 				<strong>対象日:</strong>
-				<input id="targetDate" class="form-control"
+				<input id="targetDate" name="targetDate" class="form-control"
 					th:type="${dto.status.name() == 'PENDING'} ? 'date' : 'text'" th:value="${dto.targetDate}"
 					th:readonly="${dto.status.name() != 'PENDING'}"></p>
 				<strong>出勤時間:</strong>
-				<input id="targetDate" class="form-control"
-					th:type="${dto.status.name() == 'PENDING'} ? 'time' : 'text'" th:value="${dto.targetDate}"
+				<input id="workStart" name="workStart" class="form-control"
+					th:type="${dto.status.name() == 'PENDING'} ? 'time' : 'text'" th:value="${workDto.workStart}"
 					th:readonly="${dto.status.name() != 'PENDING'}"></p>
 				<strong>退勤時間:</strong>
-				<input id="targetDate" class="form-control"
-					th:type="${dto.status.name() == 'PENDING'} ? 'time' : 'text'" th:value="${dto.targetDate}"
+				<input id="workEnd" name="workEnd" class="form-control"
+					th:type="${dto.status.name() == 'PENDING'} ? 'time' : 'text'" th:value="${workDto.workEnd}"
 					th:readonly="${dto.status.name() != 'PENDING'}"></p>
 			</div>
 			

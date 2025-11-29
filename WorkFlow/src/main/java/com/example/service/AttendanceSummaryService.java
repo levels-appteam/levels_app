@@ -20,6 +20,14 @@ public interface AttendanceSummaryService {
 	void updateSummary(UserEntity userEntity, AttendanceType type);
 	
 	/**
+	 * 打刻時間の取得
+	 * @param workStart
+	 * @param workEnd
+	 * @return
+	 */
+	AttendanceSummaryDto getWorkTimeDto(String workStart, String workEnd);
+	
+	/**
 	 * ユーザーに紐づく勤怠サマリーデータを取得する
 	 * @param userEntity
 	 * @return 勤怠サマリのリスト
@@ -32,4 +40,13 @@ public interface AttendanceSummaryService {
 	 * @return
 	 */
 	List<AttendanceSummaryDto> getSummaryDtoByUser(UserEntity userEntity, LocalDate startMonth, LocalDate endMonth);
+	
+	/**
+	 * 勤怠情報更新用
+	 * @param user
+	 * @param date
+	 * @param workStart
+	 * @param workEnd
+	 */
+	void updateWorkTime(UserEntity user, LocalDate date, String workStart, String workEnd);
 }
