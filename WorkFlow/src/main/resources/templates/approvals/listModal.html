@@ -4,21 +4,48 @@
 		<h5 class="modal-title">申請詳細</h5>
 		<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	</div>
-	<div class="modal-body">
-		<p><strong>ユーザー名:</strong> <span th:text="${dto.userName}"></span></p>
-		<p><strong>申請種別:</strong> <span th:text="${dto.kindLabel}"></span></p>
-		<p><strong>対象日:</strong> <span th:text="${dto.targetDate}"></span></p>
-		<p><strong>提出日:</strong> <span th:text="${#temporals.format(dto.submittedAt, 'yyyy-MM-dd HH:mm')}"></span>
-		</p>
-		<p><strong>申請状況:</strong> <span th:text="${dto.statusLabel}"></span></p>
-		<p><strong>申請理由:</strong> <span th:text="${dto.comment}"></span></p>
-		
-		<!-- 承認／却下／差し戻しボタン -->
-		<form th:if="${dto.status.name() == 'PENDING'}" action="/approvals/approve" method="post"style="display:inline;">
+
+	<form action="/approvals/approve" method="post">
+		<div class="modal-body">
+			<!--共通部品-->
+			<p><strong>ユーザー名:</strong> <span th:text="${dto.userName}"></span></p>
+			<p><strong>申請種別:</strong> <span th:text="${dto.kindLabel}"></span></p>
+			<p><strong>提出日:</strong> <span th:text="${#temporals.format(dto.submittedAt, 'yyyy-MM-dd HH:mm')}"></span>
+			</p>
+			<p><strong>申請状況:</strong> <span th:text="${dto.statusLabel}"></span></p>
+			<p><strong>申請理由:</strong> <span th:text="${dto.comment}"></span></p>
+			<!--有給申請の場合-->
+			<div th:if="${dto.kind.name() == 'PAID_LEAVE'}">
+				<strong>対象日:</strong>
+				<input id="targetDate" class="form-control"
+					th:type="${dto.status.name() == 'PENDING'} ? 'date' : 'text'" th:value="${dto.targetDate}"
+					th:readonly="${dto.status.name() != 'PENDING'}"></p>
+			</div>
+			<!--勤怠修正の場合-->
+			<div th:if="${dto.kind.name() == 'CORRECTION'}">
+				<strong>対象日:</strong>
+				<input id="targetDate" class="form-control"
+					th:type="${dto.status.name() == 'PENDING'} ? 'date' : 'text'" th:value="${dto.targetDate}"
+					th:readonly="${dto.status.name() != 'PENDING'}"></p>
+				<strong>出勤時間:</strong>
+				<input id="targetDate" class="form-control"
+					th:type="${dto.status.name() == 'PENDING'} ? 'time' : 'text'" th:value="${dto.targetDate}"
+					th:readonly="${dto.status.name() != 'PENDING'}"></p>
+				<strong>退勤時間:</strong>
+				<input id="targetDate" class="form-control"
+					th:type="${dto.status.name() == 'PENDING'} ? 'time' : 'text'" th:value="${dto.targetDate}"
+					th:readonly="${dto.status.name() != 'PENDING'}"></p>
+			</div>
+			
 			<input type="hidden" name="requestId" th:value="${dto.id}">
+			
+		</div>
+		<!-- 承認／却下／差し戻しボタン -->
+		<div th:if="${dto.status.name() == 'PENDING'}" class="model-footer" style="display:inline;">
 			<button type="submit" name="decision" value="APPROVED" class="btn btn-sm btn-success">承認</button>
 			<button type="submit" name="decision" value="REJECTED" class="btn btn-sm btn-danger">却下</button>
 			<button type="submit" name="decision" value="REMAND" class="btn btn-sm btn-warning">差し戻し</button>
-		</form>
-	</div>
+		</div>
+		
+	</form>
 </div>

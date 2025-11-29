@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.domain.entity.ApprovalsEntity;
@@ -30,5 +31,5 @@ public interface ApprovalsService {
 	 * @param requestId
 	 * @param decision
 	 */
-	void processApproval(Integer requestId, String decision, UserEntity loginUser);
+	void processApproval(Integer requestId, String decision, UserEntity loginUser, LocalDate targetDate);
 }

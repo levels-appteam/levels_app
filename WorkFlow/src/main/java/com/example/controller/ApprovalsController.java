@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,14 +97,14 @@ public class ApprovalsController {
 	 */
 	@PostMapping("/approve")
 	public String approveRequest(@RequestParam("requestId") Integer requestId,
-			@RequestParam("decision") String decision, @AuthenticationPrincipal UserDetails userDetails,
-			RedirectAttributes redirectAttributes) {
+			@RequestParam("decision") String decision, @RequestParam("targetDate") LocalDate targetdate,
+			@AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttributes) {
 
 		// ログインユーザーの取得
 		String email = userDetails.getUsername();
 		UserEntity loginUser = userService.getLoginUser(email);
 
-		approvalsService.processApproval(requestId, decision, loginUser);
+		approvalsService.processApproval(requestId, decision, loginUser, targetdate);
 
 		// 承認ボタン押下後メッセージ
 		redirectAttributes.addFlashAttribute("message", "承認処理が完了しました");

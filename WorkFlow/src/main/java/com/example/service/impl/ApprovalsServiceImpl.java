@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ApprovalsServiceImpl implements ApprovalsService {
 	
 	@Autowired
 	private PaidleavesService paidleavesService;
-
+	
 	/**
 	 * ユーザーの申請状況を取得
 	 */
@@ -55,7 +56,7 @@ public class ApprovalsServiceImpl implements ApprovalsService {
 
 	@Transactional
 	@Override
-	public void processApproval(Integer requestId, String decision, UserEntity loginUser) {
+	public void processApproval(Integer requestId, String decision, UserEntity loginUser, LocalDate targetDate) {
 		RequestEntity request = requestRepository.findById(requestId)
 				.orElseThrow(() -> new IllegalArgumentException("該当申請が見つかりません"));
 
@@ -65,6 +66,7 @@ public class ApprovalsServiceImpl implements ApprovalsService {
 		approval.setDecision(ApprovalsDecision.valueOf(decision));
 		approval.setDecidedAt(LocalDateTime.now());
 		approval.setApprover(loginUser);
+		request.setTargetDate(targetDate);
 
 		approvalsRepository.save(approval);
 

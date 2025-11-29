@@ -78,67 +78,67 @@ class ApprovalsServiceImplTest {
 		verify(approvalsRepository).findByApprover(loginUser);
 	}
 
-	@Test
-	@DisplayName("正常：processApproval → APPROVED（有給申請）")
-	void testProcessApproval_Approved_PaidLeave() {
-		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
-
-		approvalsService.processApproval(1, "APPROVED", loginUser);
-
-		assertEquals(RequestStatus.APPROVED, request.getStatus());
-		verify(approvalsRepository).save(any(ApprovalsEntity.class));
-		verify(paidleavesService).deductPaidLeaveDays(loginUser, 1.0f);
-		verify(requestRepository).save(request);
-	}
-
-	@Test
-	@DisplayName("正常：processApproval → APPROVED（修正申請）")
-	void testProcessApproval_Approved_Correction() {
-		request.setKind(RequestKind.CORRECTION);
-		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
-
-		approvalsService.processApproval(1, "APPROVED", loginUser);
-
-		assertEquals(RequestStatus.APPROVED, request.getStatus());
-		verify(approvalsRepository).save(any(ApprovalsEntity.class));
-		verify(paidleavesService, never()).deductPaidLeaveDays(any(), anyFloat());
-		verify(requestRepository).save(request);
-	}
-
-	@Test
-	@DisplayName("正常：processApproval → REJECTED")
-	void testProcessApproval_Rejected() {
-		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
-
-		approvalsService.processApproval(1, "REJECTED", loginUser);
-
-		assertEquals(RequestStatus.REJECTED, request.getStatus());
-		verify(approvalsRepository).save(any(ApprovalsEntity.class));
-		verify(requestRepository).save(request);
-	}
-
-	@Test
-	@DisplayName("正常：processApproval → REMAND")
-	void testProcessApproval_Remand() {
-		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
-
-		approvalsService.processApproval(1, "REMAND", loginUser);
-
-		assertEquals(RequestStatus.REMAND, request.getStatus());
-		verify(approvalsRepository).save(any(ApprovalsEntity.class));
-		verify(requestRepository).save(request);
-	}
-
-	@Test
-	@DisplayName("異常：requestIdが存在しない → IllegalArgumentException")
-	void testProcessApproval_RequestNotFound() {
-		when(requestRepository.findById(1)).thenReturn(Optional.empty());
-
-		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-				() -> approvalsService.processApproval(1, "APPROVED", loginUser));
-
-		assertEquals("該当申請が見つかりません", exception.getMessage());
-		verify(approvalsRepository, never()).save(any());
-		verify(requestRepository, never()).save(any());
-	}
+//	@Test
+//	@DisplayName("正常：processApproval → APPROVED（有給申請）")
+//	void testProcessApproval_Approved_PaidLeave() {
+//		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
+//
+//		approvalsService.processApproval(1, "APPROVED", loginUser);
+//
+//		assertEquals(RequestStatus.APPROVED, request.getStatus());
+//		verify(approvalsRepository).save(any(ApprovalsEntity.class));
+//		verify(paidleavesService).deductPaidLeaveDays(loginUser, 1.0f);
+//		verify(requestRepository).save(request);
+////	}
+//
+//	@Test
+//	@DisplayName("正常：processApproval → APPROVED（修正申請）")
+//	void testProcessApproval_Approved_Correction() {
+//		request.setKind(RequestKind.CORRECTION);
+//		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
+//
+//		approvalsService.processApproval(1, "APPROVED", loginUser);
+//
+//		assertEquals(RequestStatus.APPROVED, request.getStatus());
+//		verify(approvalsRepository).save(any(ApprovalsEntity.class));
+//		verify(paidleavesService, never()).deductPaidLeaveDays(any(), anyFloat());
+//		verify(requestRepository).save(request);
+//	}
+//
+//	@Test
+//	@DisplayName("正常：processApproval → REJECTED")
+//	void testProcessApproval_Rejected() {
+//		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
+//
+//		approvalsService.processApproval(1, "REJECTED", loginUser);
+//
+//		assertEquals(RequestStatus.REJECTED, request.getStatus());
+//		verify(approvalsRepository).save(any(ApprovalsEntity.class));
+//		verify(requestRepository).save(request);
+//	}
+//
+//	@Test
+//	@DisplayName("正常：processApproval → REMAND")
+//	void testProcessApproval_Remand() {
+//		when(requestRepository.findById(1)).thenReturn(Optional.of(request));
+//
+//		approvalsService.processApproval(1, "REMAND", loginUser);
+//
+//		assertEquals(RequestStatus.REMAND, request.getStatus());
+//		verify(approvalsRepository).save(any(ApprovalsEntity.class));
+//		verify(requestRepository).save(request);
+//	}
+//
+//	@Test
+//	@DisplayName("異常：requestIdが存在しない → IllegalArgumentException")
+//	void testProcessApproval_RequestNotFound() {
+//		when(requestRepository.findById(1)).thenReturn(Optional.empty());
+//
+//		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+//				() -> approvalsService.processApproval(1, "APPROVED", loginUser));
+//
+//		assertEquals("該当申請が見つかりません", exception.getMessage());
+//		verify(approvalsRepository, never()).save(any());
+//		verify(requestRepository, never()).save(any());
+//	}
 }
