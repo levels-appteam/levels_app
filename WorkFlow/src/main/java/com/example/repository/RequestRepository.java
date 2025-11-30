@@ -55,4 +55,12 @@ public interface RequestRepository extends JpaRepository<RequestEntity, Integer>
 
 	List<RequestEntity> findByUserEntityAndStatusAndKindAndTargetDateBetween(UserEntity userEntity,
 			RequestStatus status, RequestKind kind, LocalDate startDate, LocalDate endDate);
+
+	/**
+	 * 有休消化対象を抽出する
+	 * 
+	 * @param now
+	 * @return
+	 */
+	List<RequestEntity> findByKindAndStatusAndTargetDate(RequestKind kind, RequestStatus status, LocalDate targetDate);
 }

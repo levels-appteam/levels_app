@@ -61,7 +61,7 @@ public interface PaidleavesService {
 	 * @param userEntity
 	 * @param daysToDeduct
 	 */
-	void deductPaidLeaveDays(UserEntity userEntity, float daysToDeduct);
+	void deductPaidLeaveDays(UserEntity user, float usedDays, LocalDate targetDate);
 	
 	/**
 	 * 有給残日数

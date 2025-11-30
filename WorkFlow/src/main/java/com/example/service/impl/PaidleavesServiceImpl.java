@@ -47,8 +47,7 @@ public class PaidleavesServiceImpl implements PaidleavesService {
 	}
 
 	/**
-	 *有給管理表示用
-	 *ユーザー有給情報
+	 * 有給管理表示用 ユーザー有給情報
 	 */
 	@Override
 	public List<PaidleavesEntity> getAllPaidleaves() {
@@ -75,12 +74,11 @@ public class PaidleavesServiceImpl implements PaidleavesService {
 	 */
 	@Transactional
 	@Override
-	public void deductPaidLeaveDays(UserEntity user, float usedDays) {
-		LocalDate today = LocalDate.now();
+	public void deductPaidLeaveDays(UserEntity user, float usedDays, LocalDate targetDate) {
 
 		// 有効期限内の有給を古い順に取得
 		List<PaidleavesEntity> activeLeaves = paidleavesRepository
-				.findByUserEntityAndRevocationDateGreaterThanEqualOrderByGrantDateAsc(user, today);
+				.findByUserEntityAndRevocationDateGreaterThanEqualOrderByGrantDateAsc(user, targetDate);
 
 		float remainingToDeduct = usedDays;
 

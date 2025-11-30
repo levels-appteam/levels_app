@@ -79,4 +79,10 @@ public class RequestEntity {
 	@OneToMany(mappedBy = "request")
 	private List<ApprovalsEntity> approvalsList;
 	
+	/**
+	 * 有給使用フラグ
+	 */
+	@Column(name = "used_flag")
+	private Boolean usedFlag;
+	
 }

@@ -106,7 +106,7 @@ public class ApprovalsController {
 	@PostMapping("/approve")
 	public String approveRequest(@RequestParam("requestId") Integer requestId,
 			@RequestParam("decision") String decision, @RequestParam("targetDate") LocalDate targetdate,
-			@RequestParam("workStart") String workStart, @RequestParam("workEnd") String workEnd,
+			@RequestParam(value = "workStart", required = false) String workStart, @RequestParam(value = "workEnd", required = false) String workEnd,
 			@AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttributes) {
 
 		// ログインユーザーの取得
