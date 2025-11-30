@@ -53,7 +53,7 @@ public class RequestServiceImpl implements RequestService {
 		RequestEntity requestEntity = new RequestEntity();
 
 		requestEntity.setUserEntity(userEntity);
-		requestEntity.setKind(RequestKind.PAID_LEAVE);
+		requestEntity.setKind(requestForm.getRequestKind());
 		requestEntity.setStatus(RequestStatus.PENDING);
 		requestEntity.setTargetDate(requestForm.getTargetDate());
 		requestEntity.setSubmittedAt(LocalDateTime.now());
@@ -64,7 +64,8 @@ public class RequestServiceImpl implements RequestService {
 
 	@Override
 	public List<RequestEntity> getUserPaidLeaveRequests(UserEntity userEntity) {
-		return requestRepository.findByUserEntityAndKind(userEntity, RequestKind.PAID_LEAVE);
+		return requestRepository.findByUserEntityAndKindIn(userEntity,
+				List.of(RequestKind.PAID_LEAVE, RequestKind.HALF_DAYOFF, RequestKind.SPECIAL_LEAVE));
 	}
 
 	/**

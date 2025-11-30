@@ -63,4 +63,24 @@ public interface RequestRepository extends JpaRepository<RequestEntity, Integer>
 	 * @return
 	 */
 	List<RequestEntity> findByKindAndStatusAndTargetDate(RequestKind kind, RequestStatus status, LocalDate targetDate);
+
+	/**
+	 * 休暇申請追加対応
+	 * @param userEntity
+	 * @param paidLeave
+	 * @param halfDayoff
+	 * @param specialLeave
+	 * @return
+	 */
+	List<RequestEntity> findByUserEntityAndKindIn(UserEntity userEntity, List<RequestKind> kinds);
+
+	/**
+	 * 有休消化（半休考慮）
+	 * @param kinds
+	 * @param status
+	 * @param targetDate
+	 * @return
+	 */
+	List<RequestEntity> findByKindInAndStatusAndTargetDate(List<RequestKind> kinds, RequestStatus status,
+			LocalDate targetDate);
 }

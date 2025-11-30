@@ -44,16 +44,24 @@ public class PaidleavesScheduler {
 	@Transactional
 	public void processPaidLeaveConsumption() {
 		LocalDate today = LocalDate.now();
-		List<RequestEntity> requests = requestRepository.findByKindAndStatusAndTargetDate(RequestKind.PAID_LEAVE,
-				RequestStatus.APPROVED, today);
+		List<RequestEntity> requests = requestRepository.findByKindInAndStatusAndTargetDate(List.of(RequestKind.PAID_LEAVE,
+				RequestKind.HALF_DAYOFF), RequestStatus.APPROVED, today);
 
 		for (RequestEntity request : requests) {
 			if (!Boolean.TRUE.equals(request.getUsedFlag())) {
-				paidleavesService.deductPaidLeaveDays(request.getUserEntity(), 1.0f, request.getTargetDate());
-				request.setUsedFlag(true);
+				float daysToDeduct = switch (request.getKind()) {
+				case PAID_LEAVE -> 1.0f;
+				case HALF_DAYOFF -> 0.5f;
+				default -> 0.0f;
+				};
+
+				if (daysToDeduct > 0.0f) {
+					paidleavesService.deductPaidLeaveDays(request.getUserEntity(), daysToDeduct,
+							request.getTargetDate());
+					request.setUsedFlag(true);
+				}
 			}
 		}
-
 		requestRepository.saveAll(requests);
 	}
 }

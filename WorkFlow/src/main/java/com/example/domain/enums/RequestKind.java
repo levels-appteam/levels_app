@@ -5,7 +5,9 @@ package com.example.domain.enums;
  */
 public enum RequestKind {
 	PAID_LEAVE("有給申請"), 
-	CORRECTION("勤務修正");
+	CORRECTION("勤務修正"),
+	HALF_DAYOFF("半休"), 
+	SPECIAL_LEAVE("特別休暇");
 
 	private final String label;
 

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.domain.enums.RequestKind;
+
 import lombok.Data;
 
 /**
@@ -18,6 +20,11 @@ public class RequestForm {
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate targetDate;
+	
+	/**
+	 * 休暇種別
+	 */
+	private RequestKind requestKind;
 	
 	/**
 	 * 申請理由
