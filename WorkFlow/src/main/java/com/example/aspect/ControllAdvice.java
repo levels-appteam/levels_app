@@ -1,5 +1,7 @@
 package com.example.aspect;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +19,9 @@ import com.example.service.UserService;
  */
 @ControllerAdvice
 public class ControllAdvice {
+	
+	private static final Logger log = LoggerFactory.getLogger(ControllAdvice.class);
+	
 	@Autowired
 	private UserService userService;
 
@@ -37,6 +42,7 @@ public class ControllAdvice {
 	 */
 	@ExceptionHandler(DataAccessException.class)
 	public String handleDataAccessException(DataAccessException ex, Model model) {
+		log.error("データアクセスエラーが発生しました: {}", ex.getMessage(), ex);
 		model.addAttribute("errorMessage", ex.getMessage());
 		return "error/common_error";
 	}
@@ -49,6 +55,7 @@ public class ControllAdvice {
 	 */
 	@ExceptionHandler(Exception.class)
 	public String handleException(Exception ex, Model model) {
+		log.error("予期せぬエラーが発生しました: {}", ex.getMessage(), ex);
 		model.addAttribute("errorMessage", "予期せぬエラーが発生しました。");
 		return "error/common_error";
 	}
